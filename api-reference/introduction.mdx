@@ -1,33 +1,40 @@
+﻿---
+title: "API reference"
+description: "Reference for model, text, image, and video endpoints."
 ---
-title: 'Introduction'
-description: 'Example section for showcasing API endpoints'
----
 
-<Note>
-  If you're not looking to build API reference documentation, you can delete
-  this section by removing the api-reference folder.
-</Note>
+## Base URL
 
-## Welcome
+```text
+https://api.example.com
+```
 
-There are two ways to build API documentation: [OpenAPI](https://mintlify.com/docs/api-playground/openapi/setup) and [MDX components](https://mintlify.com/docs/api-playground/mdx/configuration). For the starter kit, we are using the following OpenAPI specification.
-
-<Card
-  title="Plant Store Endpoints"
-  icon="leaf"
-  href="https://github.com/mintlify/starter/blob/main/api-reference/openapi.json"
->
-  View the OpenAPI specification file
-</Card>
+Replace this value with your production API domain.
 
 ## Authentication
 
-All API endpoints are authenticated using Bearer tokens and picked up from the specification file.
+All API endpoints use Bearer token authentication.
 
-```json
-"security": [
-  {
-    "bearerAuth": []
-  }
-]
+```http
+Authorization: Bearer YOUR_API_KEY
 ```
+
+## Endpoints
+
+<CardGroup cols={2}>
+  <Card title="List models" icon="list" href="/api-reference/endpoint/list-models">
+    Return the models available to your account.
+  </Card>
+
+  <Card title="Chat completions" icon="messages" href="/api-reference/endpoint/chat-completions">
+    Generate assistant responses with `gpt-5.4`.
+  </Card>
+
+  <Card title="Image generations" icon="image" href="/api-reference/endpoint/image-generations">
+    Generate images with `image-2`.
+  </Card>
+
+  <Card title="Video generations" icon="video" href="/api-reference/endpoint/video-generations">
+    Generate videos with `seedance2`.
+  </Card>
+</CardGroup>

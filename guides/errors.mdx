@@ -1,0 +1,42 @@
+﻿---
+title: "Errors"
+description: "Understand common API errors and how to handle them."
+icon: "triangle-exclamation"
+---
+
+## Error format
+
+Errors return a JSON object with an `error` field.
+
+```json
+{
+  "error": {
+    "type": "invalid_request_error",
+    "message": "The model field is required.",
+    "code": "missing_required_parameter"
+  }
+}
+```
+
+## Common status codes
+
+| Status | Meaning | What to do |
+| --- | --- | --- |
+| `400` | Invalid request | Check required fields and parameter types. |
+| `401` | Authentication failed | Verify your API key and Bearer token format. |
+| `403` | Permission denied | Confirm the key has access to the requested model. |
+| `404` | Not found | Check the endpoint path or resource ID. |
+| `429` | Rate limited | Retry with backoff or request a higher limit. |
+| `500` | Server error | Retry later or contact support with the request ID. |
+
+## Retry guidance
+
+Retry transient errors such as `429`, `500`, `502`, and `503` with exponential backoff.
+
+```js
+const delay = Math.min(1000 * 2 ** retryCount, 30000);
+```
+
+<Note>
+  Do not retry validation errors such as missing fields or invalid model names without changing the request.
+</Note>
