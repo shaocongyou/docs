@@ -1,0 +1,155 @@
+---
+title: "Create chat completion"
+description: "Generate text responses with gpt-5.4 or gpt-5.5 using an OpenAI-compatible request format."
+icon: "messages"
+---
+
+## Endpoint
+
+```http
+POST https://cc2.cx/v1/chat/completions
+```
+
+## Authentication
+
+Send your API key in the `Authorization` header.
+
+```http
+Authorization: Bearer YOUR_API_KEY
+Content-Type: application/json
+```
+
+## Supported models
+
+- `gpt-5.4`
+- `gpt-5.5`
+
+## Request body
+
+| Field | Type | Required | Description |
+| --- | --- | --- | --- |
+| `model` | string | Yes | Set this to `gpt-5.4` or `gpt-5.5`. |
+| `messages` | array | Yes | Conversation messages in OpenAI-compatible format. |
+| `temperature` | number | No | Controls randomness. Lower values are more deterministic. |
+| `max_tokens` | integer | No | Limits the number of output tokens. |
+
+## Example request
+
+```bash
+curl https://cc2.cx/v1/chat/completions \
+  -H "Authorization: Bearer $AI_API_KEY" \
+  -H "Content-Type: application/json" \
+  -d '{
+    "model": "gpt-5.4",
+    "messages": [
+      {
+        "role": "system",
+        "content": "You are a concise product assistant."
+      },
+      {
+        "role": "user",
+        "content": "Write a launch email for a new AI image API."
+      }
+    ],
+    "temperature": 0.7,
+    "max_tokens": 500
+  }'
+```
+
+## JavaScript example
+
+```js
+const response = await fetch("https://cc2.cx/v1/chat/completions", {
+  method: "POST",
+  headers: {
+    Authorization: `Bearer ${process.env.AI_API_KEY}`,
+    "Content-Type": "application/json",
+  },
+  body: JSON.stringify({
+    model: "gpt-5.5",
+    messages: [
+      {
+        role: "user",
+        content: "Summarize the difference between GPT-5.4 and GPT-5.5.",
+      },
+    ],
+    temperature: 0.5,
+  }),
+});
+
+const data = await response.json();
+console.log(data.choices?.[0]?.message?.content);
+```
+
+## Python example
+
+```python
+import os
+import requests
+
+response = requests.post(
+    "https://cc2.cx/v1/chat/completions",
+    headers={
+        "Authorization": f"Bearer {os.environ['AI_API_KEY']}",
+        "Content-Type": "application/json",
+    },
+    json={
+        "model": "gpt-5.4",
+        "messages": [
+            {"role": "user", "content": "Give me 3 tagline ideas for an AI video API."}
+        ],
+        "temperature": 0.8,
+    },
+    timeout=60,
+)
+
+data = response.json()
+print(data["choices"][0]["message"]["content"])
+```
+
+## Example response
+
+```json
+{
+  "id": "chatcmpl_123",
+  "object": "chat.completion",
+  "created": 1710000000,
+  "model": "gpt-5.4",
+  "choices": [
+    {
+      "index": 0,
+      "message": {
+        "role": "assistant",
+        "content": "Here are 3 tagline ideas for your AI video API..."
+      },
+      "finish_reason": "stop"
+    }
+  ],
+  "usage": {
+    "prompt_tokens": 24,
+    "completion_tokens": 72,
+    "total_tokens": 96
+  }
+}
+```
+
+## When to use each model
+
+| Model | Recommended use |
+| --- | --- |
+| `gpt-5.4` | Fast chat, drafting, extraction, and most production workloads |
+| `gpt-5.5` | Higher quality reasoning, planning, and more demanding writing tasks |
+
+## Common errors
+
+| Status | Meaning |
+| --- | --- |
+| `400` | Missing `model` or `messages`, or invalid parameter types |
+| `401` | Missing or invalid API key |
+| `403` | Your key does not have access to the requested model |
+| `429` | Rate limited |
+| `500` | Temporary server-side error |
+
+<Note>
+  This endpoint follows the common OpenAI-style `chat/completions` request and response shape, so it is easy to use from existing HTTP clients and compatible wrappers.
+</Note>

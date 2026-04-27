@@ -1,133 +1,52 @@
+﻿---
+title: "AI API documentation"
+description: "Use gpt-5.4, gpt-5.5, image-2, and seedance2.0 through one simple API."
+icon: "sparkles"
 ---
-title: "Introduction"
-description: "Welcome to the new home for your documentation"
-icon: 'star'
----
 
-## Setting up
+## Build with one API
 
-Get your documentation site up and running in minutes.
+This documentation shows how to call text, image, and video models from a single API surface.
 
-<Card
-  title="Start here"
-  icon="rocket"
-  href="/quickstart"
-  horizontal
->
-  Follow our three step quickstart guide.
-</Card>
-
-## Make it yours
-
-Design a docs site that looks great and empowers your users.
-
-<Columns cols={2}>
-  <Card
-    title="Edit locally"
-    icon="pen-to-square"
-    href="/development"
-  >
-    Edit your docs locally and preview them in real time.
+<CardGroup cols={3}>
+  <Card title="Text generation" icon="message-lines" href="/api-reference/endpoint/chat-completions">
+    Use `gpt-5.4` and `gpt-5.5` for chat, reasoning, coding, and structured output.
   </Card>
-  <Card
-    title="Customize your site"
-    icon="palette"
-    href="/essentials/settings"
-  >
-    Customize the design and colors of your site to match your brand.
-  </Card>
-    <Card
-    title="Set up navigation"
-    icon="map"
-    href="/essentials/navigation"
-  >
-    Organize your docs to help users find what they need and succeed with your product.
-  </Card>
-  <Card
-    title="API documentation"
-    icon="terminal"
-    href="/api-reference/introduction"
-  >
-    Auto-generate API documentation from OpenAPI specifications.
-  </Card>
-</Columns>
 
-## Create beautiful pages
+  <Card title="Image generation" icon="image" href="/api-reference/endpoint/image-generations">
+    Use `image-2` to create images from prompts.
+  </Card>
 
-Everything you need to create world-class documentation.
+  <Card title="Video generation" icon="video" href="/api-reference/endpoint/video-generations">
+    Use `seedance2.0` to create short videos from prompts or image references.
+  </Card>
+</CardGroup>
 
-<Columns cols={2}>
-  <Card
-    title="Write with MDX"
-    icon="pen-fancy"
-    href="/essentials/markdown"
-  >
-    Use MDX to style your docs pages.
-  </Card>
-  <Card
-    title="Code samples"
-    icon="code"
-    href="/essentials/code"
-  >
-    Add sample code to demonstrate how to use your product.
-  </Card>
-  <Card
-    title="Images"
-    icon="image"
-    href="/essentials/images"
-  >
-    Display images and other media.
-  </Card>
-  <Card
-    title="Reusable snippets"
-    icon="recycle"
-    href="/essentials/reusable-snippets"
-  >
-    Write once and reuse across your docs.
-  </Card>
-</Columns>
+## Quick example
 
-## Make your content agent ready
+Send your API key as a Bearer token and call the endpoint you need.
 
-Make your docs work for humans and AI agents alike.
+```bash
+curl https://cc2.cx/v1/chat/completions \
+  -H "Authorization: Bearer $AI_API_KEY" \
+  -H "Content-Type: application/json" \
+  -d '{
+    "model": "gpt-5.4",
+    "messages": [
+      {"role": "user", "content": "Write a launch plan for my product."}
+    ]
+  }'
+```
 
-<Columns cols={2}>
-  <Card
-    title="Prompt component"
-    icon="robot"
-    href="/agent-ready/prompt"
-  >
-    Embed shareable AI prompts readers can copy or open in Cursor.
-  </Card>
-  <Card
-    title="Visibility"
-    icon="eye"
-    href="/agent-ready/visibility"
-  >
-    Show different content to humans and agents reading your docs.
-  </Card>
-  <Card
-    title="Contextual menu"
-    icon="bolt"
-    href="/agent-ready/contextual"
-  >
-    Give readers one-click access to Claude, ChatGPT, Cursor, and more.
-  </Card>
-  <Card
-    title="AI coding tools"
-    icon="wand-magic-sparkles"
-    href="/ai-tools/claude-code"
-  >
-    Set up Claude Code, Cursor, or Windsurf with Mintlify's skill.
-  </Card>
-</Columns>
+## Available models
 
-## Need inspiration?
+| Model | Type | Best for |
+| --- | --- | --- |
+| `gpt-5.4` | Text | Fast chat, code, reasoning, tool instructions, JSON output |
+| `gpt-5.5` | Text | Higher quality reasoning, planning, and more demanding writing tasks |
+| `image-2` | Image | Product shots, posters, social graphics, visual concepts |
+| `seedance2.0` | Video | Short clips, ad creatives, scene motion, prompt-to-video |
 
-<Card
-  title="See complete examples"
-  icon="stars"
-  href="https://mintlify.com/customers"
->
-  Browse our showcase of exceptional documentation sites.
-</Card>
+<Tip>
+  Use `https://cc2.cx/v1` as your API base URL in OpenAI-compatible clients.
+</Tip>

@@ -1,0 +1,148 @@
+---
+title: "Create video"
+description: "Generate videos with seedance2.0 from a prompt or image reference."
+icon: "video"
+---
+
+## Endpoint
+
+```http
+POST https://cc2.cx/v1/videos/generations
+```
+
+## Authentication
+
+```http
+Authorization: Bearer YOUR_API_KEY
+Content-Type: application/json
+```
+
+## Supported model
+
+- `seedance2.0`
+
+## How this endpoint is typically used
+
+Video generation usually takes longer than text or image generation. In most production setups, you send a creation request first and then receive either:
+
+- a completed result, or
+- a job object that you can poll until the video is ready
+
+This page documents the recommended request shape for `seedance2.0`.
+
+## Request body
+
+| Field | Type | Required | Description |
+| --- | --- | --- | --- |
+| `model` | string | Yes | Set this to `seedance2.0`. |
+| `prompt` | string | Yes | Describe the motion, camera movement, and scene. |
+| `image` | string | No | Optional reference image URL or base64 image for image-to-video flows. |
+| `duration` | integer | No | Target duration in seconds. |
+| `resolution` | string | No | Output resolution such as `720p` or `1080p`. |
+
+## Example request
+
+```bash
+curl https://cc2.cx/v1/videos/generations \
+  -H "Authorization: Bearer $AI_API_KEY" \
+  -H "Content-Type: application/json" \
+  -d '{
+    "model": "seedance2.0",
+    "prompt": "A cinematic tracking shot following a runner through a rainy neon street",
+    "duration": 5,
+    "resolution": "1080p"
+  }'
+```
+
+## JavaScript example
+
+```js
+const response = await fetch("https://cc2.cx/v1/videos/generations", {
+  method: "POST",
+  headers: {
+    Authorization: `Bearer ${process.env.AI_API_KEY}`,
+    "Content-Type": "application/json",
+  },
+  body: JSON.stringify({
+    model: "seedance2.0",
+    prompt: "A slow cinematic push-in toward a luxury watch on black stone",
+    duration: 5,
+    resolution: "1080p",
+  }),
+});
+
+const data = await response.json();
+console.log(data);
+```
+
+## Python example
+
+```python
+import os
+import requests
+
+response = requests.post(
+    "https://cc2.cx/v1/videos/generations",
+    headers={
+        "Authorization": f"Bearer {os.environ['AI_API_KEY']}",
+        "Content-Type": "application/json",
+    },
+    json={
+        "model": "seedance2.0",
+        "prompt": "An aerial sunrise shot over mountain clouds with smooth forward motion",
+        "duration": 5,
+        "resolution": "1080p",
+    },
+    timeout=300,
+)
+
+data = response.json()
+print(data)
+```
+
+## Example response
+
+```json
+{
+  "id": "video_job_123",
+  "object": "video.generation",
+  "model": "seedance2.0",
+  "status": "processing",
+  "created_at": 1710000000
+}
+```
+
+## When the job is finished
+
+Depending on the deployment, the final response may include a video URL directly or attach output metadata to the job record.
+
+Example completed result:
+
+```json
+{
+  "id": "video_job_123",
+  "object": "video.generation",
+  "model": "seedance2.0",
+  "status": "completed",
+  "output": {
+    "url": "https://cdn.example.com/generated/video_job_123.mp4"
+  }
+}
+```
+
+## Prompting tips
+
+- Describe the subject, environment, and motion in one compact prompt.
+- Include camera movement such as `push in`, `pan left`, `slow dolly`, or `aerial fly-through`.
+- Keep each request focused on one main scene.
+
+## Good use cases
+
+- Short ad creatives
+- Concept trailers
+- Motion studies for storyboards
+- Image-to-video animation tests
+
+<Warning>
+  Video generation can be asynchronous and longer-running. Build your client to handle `processing` states and delayed completion.
+</Warning>

@@ -1,0 +1,121 @@
+---
+title: "Create image"
+description: "Generate images with image-2 from a text prompt."
+icon: "image"
+---
+
+## Endpoint
+
+```http
+POST https://cc2.cx/v1/images/generations
+```
+
+## Authentication
+
+```http
+Authorization: Bearer YOUR_API_KEY
+Content-Type: application/json
+```
+
+## Supported model
+
+- `image-2`
+
+## Request body
+
+| Field | Type | Required | Description |
+| --- | --- | --- | --- |
+| `model` | string | Yes | Set this to `image-2`. |
+| `prompt` | string | Yes | Describe the image you want to generate. |
+| `size` | string | No | Output size such as `1024x1024`, `1024x1536`, or `1536x1024`. |
+| `n` | integer | No | Number of images to generate. |
+
+## Example request
+
+```bash
+curl https://cc2.cx/v1/images/generations \
+  -H "Authorization: Bearer $AI_API_KEY" \
+  -H "Content-Type: application/json" \
+  -d '{
+    "model": "image-2",
+    "prompt": "A premium tea brand poster, clean layout, warm natural light, high-end editorial style",
+    "size": "1024x1536",
+    "n": 1
+  }'
+```
+
+## JavaScript example
+
+```js
+const response = await fetch("https://cc2.cx/v1/images/generations", {
+  method: "POST",
+  headers: {
+    Authorization: `Bearer ${process.env.AI_API_KEY}`,
+    "Content-Type": "application/json",
+  },
+  body: JSON.stringify({
+    model: "image-2",
+    prompt: "A cinematic product photo of a glass perfume bottle on stone",
+    size: "1024x1024",
+    n: 1,
+  }),
+});
+
+const data = await response.json();
+console.log(data.data?.[0]?.url || data.data?.[0]?.b64_json);
+```
+
+## Python example
+
+```python
+import os
+import requests
+
+response = requests.post(
+    "https://cc2.cx/v1/images/generations",
+    headers={
+        "Authorization": f"Bearer {os.environ['AI_API_KEY']}",
+        "Content-Type": "application/json",
+    },
+    json={
+        "model": "image-2",
+        "prompt": "A minimalist app icon for an AI creative studio, blue gradient",
+        "size": "1024x1024",
+        "n": 1,
+    },
+    timeout=120,
+)
+
+data = response.json()
+print(data["data"][0].get("url") or data["data"][0].get("b64_json"))
+```
+
+## Example response
+
+```json
+{
+  "created": 1710000000,
+  "data": [
+    {
+      "url": "https://cdn.example.com/generated/abc123.png"
+    }
+  ]
+}
+```
+
+## Prompting tips
+
+- Start with the subject, then add style, lighting, framing, and background details.
+- Ask for one clear visual concept instead of many competing ideas.
+- Mention aspect ratio through the `size` field, not only in the prompt.
+
+## Common use cases
+
+- Marketing banners and posters
+- Product and packaging concepts
+- Social media creatives
+- Blog covers and thumbnails
+
+<Note>
+  Many OpenAI-compatible deployments return image URLs. Some return `b64_json` instead. Your client should handle either form when possible.
+</Note>

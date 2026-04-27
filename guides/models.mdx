@@ -1,0 +1,126 @@
+---
+title: "Models"
+description: "Choose the right model for chat, image generation, and video generation."
+icon: "brain-circuit"
+---
+
+## Model lineup
+
+All models are available from the same base URL:
+
+```text
+https://cc2.cx/v1
+```
+
+## Model overview
+
+| Model | Endpoint | Best for | Output |
+| --- | --- | --- | --- |
+| `gpt-5.4` | `/chat/completions` | Fast chat, drafting, coding help, structured extraction | Assistant message |
+| `gpt-5.5` | `/chat/completions` | Harder reasoning, longer workflows, higher quality writing | Assistant message |
+| `image-2` | `/images/generations` | Prompt-to-image generation, marketing visuals, concept art, thumbnails | Image URL or base64 payload |
+| `seedance2.0` | `/videos/generations` | Prompt-to-video generation, ad clips, animated scenes, motion concepts | Video job or video result |
+
+## `gpt-5.4`
+
+Use `gpt-5.4` when you want a strong default model for everyday text work.
+
+- General chat and question answering
+- Code generation and debugging
+- Content drafting and rewriting
+- Structured JSON-style extraction
+
+```json
+{
+  "model": "gpt-5.4",
+  "messages": [
+    {
+      "role": "user",
+      "content": "Summarize this customer interview in 5 bullet points."
+    }
+  ],
+  "temperature": 0.7
+}
+```
+
+## `gpt-5.5`
+
+Use `gpt-5.5` when quality matters more than speed.
+
+- Multi-step reasoning
+- Strategy and planning
+- Long-form writing
+- More demanding coding and analysis tasks
+
+```json
+{
+  "model": "gpt-5.5",
+  "messages": [
+    {
+      "role": "user",
+      "content": "Design a rollout plan for a new subscription product."
+    }
+  ],
+  "temperature": 0.5
+}
+```
+
+## `image-2`
+
+Use `image-2` for still-image generation.
+
+- Product mockups
+- Poster and banner concepts
+- Social media creatives
+- Thumbnail and cover images
+
+```json
+{
+  "model": "image-2",
+  "prompt": "A clean SaaS landing page hero illustration, blue and white, soft lighting",
+  "size": "1024x1024",
+  "n": 1
+}
+```
+
+## `seedance2.0`
+
+Use `seedance2.0` for short video generation and motion concepts.
+
+- Short ad creatives
+- Prompt-to-video scenes
+- Image-to-video motion tests
+- Storyboard and animation previews
+
+```json
+{
+  "model": "seedance2.0",
+  "prompt": "A cinematic drone shot flying through a neon city at night",
+  "duration": 5,
+  "resolution": "1080p"
+}
+```
+
+## Selection guide
+
+<CardGroup cols={2}>
+  <Card title="Need the best default text model?" icon="message-code">
+    Choose `gpt-5.4`.
+  </Card>
+
+  <Card title="Need stronger reasoning?" icon="brain">
+    Choose `gpt-5.5`.
+  </Card>
+
+  <Card title="Need a still image?" icon="image">
+    Choose `image-2`.
+  </Card>
+
+  <Card title="Need motion or video?" icon="film">
+    Choose `seedance2.0`.
+  </Card>
+</CardGroup>
+
+<Tip>
+  If your client expects an OpenAI-style base URL, set `baseURL` to `https://cc2.cx/v1` and then call the matching path for each endpoint.
+</Tip>
