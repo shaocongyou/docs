@@ -32,23 +32,7 @@
       },
       {
         "tab": "API reference",
-        "groups": [
-          {
-            "group": "Overview",
-            "pages": [
-              "api-reference/introduction"
-            ]
-          },
-          {
-            "group": "Endpoints",
-            "pages": [
-              "api-reference/endpoint/list-models",
-              "api-reference/endpoint/chat-completions",
-              "api-reference/endpoint/image-generations",
-              "api-reference/endpoint/video-generations"
-            ]
-          }
-        ]
+        "href": "https://gqud5r4niq.apifox.cn/api-450300331"
       }
     ],
     "global": {
